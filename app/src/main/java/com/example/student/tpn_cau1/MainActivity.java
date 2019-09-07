@@ -1,7 +1,8 @@
 package com.example.student.tpn_cau1;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,8 +12,9 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     CheckBox checkBox;
-    Button buttonLogin;
+    Button buttonLogin, buttonExit;
     EditText editTextTK, editTextPass;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,11 +23,11 @@ public class MainActivity extends AppCompatActivity {
         checkBox = findViewById(R.id.checkBox);
         editTextTK = findViewById(R.id.editTextTK);
         editTextPass = findViewById(R.id.editTextPass);
+        buttonExit = findViewById(R.id.buttonExit);
+
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-//                builder.setMessage("B");
                 String tk = editTextTK.getText().toString();
                 String pass = editTextPass.getText().toString();
                 if (!tk.isEmpty() && !pass.isEmpty()) {
@@ -37,7 +39,33 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(MainActivity.this, "Vui lòng nhập đủ tài khoản và mật khẩu", Toast.LENGTH_LONG).show();
                 }
+            }
+        });
 
+        buttonExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setMessage("Bạn có chắc muốn thoát?");
+                builder.setTitle("Thông báo");
+                builder.setIcon(android.R.drawable.stat_sys_warning);
+
+                builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        finish();
+                    }
+                });
+
+                builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+
+                builder.create().show();
             }
         });
     }
